@@ -10,6 +10,9 @@
 			background-color: #f1f1f1;
 			padding: 1px;
 		}
+		.buttons:active{
+			background-color: #74b9ff;
+		}
 
 		.buttons{
 			/*width: 50%;*/
@@ -19,19 +22,17 @@
 			padding: 5px;
 			border: 0;
 		}
-		
-		.buttons:active{
-			background-color: #74b9ff;
-		}
 
 		.disabled{
 			background-color: #e1e1e1;
 			color: black;
 		}
-	
+
 		textarea{
 			//text-align: right;
 		}
+
+
 
 	</style>
 
@@ -42,13 +43,13 @@
 
 <div class="row">
 	<button type="button" class="buttons disabled" disabled>%</button>
-	<button type="button" class="buttons disabled" disabled>V</button>	
-	<button type="button" class="buttons disabled" disabled>x2</button>	
-	<button type="button" class="buttons disabled" disabled>1/x</button>	
-	<button type="button" class="buttons disabled" onclick="clearContents(this)">CE</button>	
-	<button type="button" class="buttons disabled" disabled>C</button>	
+	<button type="button" class="buttons disabled" disabled>√</button>	
+	<button type="button" class="buttons disabled" disabled>x<sup>2</sup></button>	
+	<button type="button" class="buttons disabled" disabled><sup>1</sup>/x</button>	
+	<button type="button" class="buttons disabled" onclick="clearCont(this)">CE</button>	
+	<button type="button" class="buttons disabled" onclick="clearContents(this)">C</button>	
 	<button type="button" class="buttons disabled" onclick="delChar()">Del</button>
-	<button type="button" class="buttons disabled" onclick="oP('/')">/</button>	
+	<button type="button" class="buttons disabled" onclick="oP('÷')">÷</button>	
 	<button type="button" class="buttons" onclick="typeChar(7)">7</button>	
 	<button type="button" class="buttons" onclick="typeChar(8)">8</button>	
 	<button type="button" class="buttons" onclick="typeChar(9)">9</button>	
@@ -61,7 +62,7 @@
 	<button type="button" class="buttons" onclick="typeChar(2)">2</button>
 	<button type="button" class="buttons" onclick="typeChar(3)">3</button>
 	<button type="button" class="buttons" onclick="oP('+')">+</button>	
-	<button type="button" class="buttons" onclick="typeChar('-+')">-+</button>	
+	<button type="button" class="buttons" onclick="typeChar('±')">±</button>	
 	<button type="button" class="buttons" onclick="typeChar(0)">0</button>	
 	<button type="button" class="buttons" onclick="typeChar('.')" disabled>.</button>	
 	<button type="button" class="buttons" onclick="sum()">=</button>
@@ -75,6 +76,7 @@
 			var i = 0;
 			var x = document.getElementById("monitor").value;
 			var y = x.split("\n");
+			var z = x + text;
 
 			for(i;i<y.length;i++){
 				if(y[i] != ''){
@@ -82,15 +84,18 @@
 					var yy = y[i].split(/[\s, ]+/);
 					for(zz=0;zz<yy.length;zz++){
 						if(yy[zz] == '='){
-							//alert(yy[zz]);
+							alert(yy[zz]);
 							document.getElementById("monitor").value = '';
-							return;
+							break;
 						}
+						document.getElementById("monitor").value = z;
 					}
+				}else{
+					document.getElementById("monitor").value = z;
 				}
 			}
-			var z = x += text;
-			document.getElementById("monitor").value = z;
+			
+			//document.getElementById("monitor").value = z;
 		}
 
 		function delChar(){
@@ -114,6 +119,12 @@
 
 		function clearContents(element){
 			document.getElementById("monitor").value = '';
+		}
+
+		function clearCont(element){
+			var x = document.getElementById("monitor").value;
+			var y = x.slice(0,x.length -1);
+			document.getElementById("monitor").value = y;
 		}
 
 		function sum(){
@@ -141,7 +152,7 @@
 				}else if(lines[i] == '-'){
 					result = a - b;
 					z = 0;
-				}else if(lines[i] == '/'){
+				}else if(lines[i] == '÷'){
 					result = a / b;
 					z = 0;
 				}else if(lines[i] == '*'){
