@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Calculator v.2</title>
+	<style>
+		.row{
+			width: 50%;
+			display: grid;
+			grid-template-columns: 25% 25% 25% 25%;
+			background-color: #f1f1f1;
+			padding: 1px;
+		}
+		.buttons:active{
+			background-color: #74b9ff;
+		}
+
+		.buttons{
+			/*width: 50%;*/
+			background-color: #fff;
+			margin:2px;
+			text-align: center;
+			padding: 5px;
+			border: 0;
+		}
+
+		.disabled{
+			background-color: #e1e1e1;
+			color: black;
+		}
+
+		textarea{
+			//text-align: right;
+		}
+
+
+
+	</style>
+
+</head>
+<body>
+
+<textarea id="monitor" rows="10" cols="31" disabled></textarea>
+
+<div class="row">
+	<button type="button" class="buttons disabled" disabled>%</button>
+	<button type="button" class="buttons disabled" disabled>√</button>	
+	<button type="button" class="buttons disabled" disabled>x<sup>2</sup></button>	
+	<button type="button" class="buttons disabled" disabled><sup>1</sup>/x</button>	
+	<button type="button" class="buttons disabled" onclick="clearCont(this)">CE</button>	
+	<button type="button" class="buttons disabled" onclick="clearContents(this)">C</button>	
+	<button type="button" class="buttons disabled" onclick="delChar()">Del</button>
+	<button type="button" class="buttons disabled" onclick="oP('÷')">÷</button>	
+	<button type="button" class="buttons" onclick="typeChar(7)">7</button>	
+	<button type="button" class="buttons" onclick="typeChar(8)">8</button>	
+	<button type="button" class="buttons" onclick="typeChar(9)">9</button>	
+	<button type="button" class="buttons" onclick="oP('*')">X</button>
+	<button type="button" class="buttons" onclick="typeChar(4)">4</button>
+	<button type="button" class="buttons" onclick="typeChar(5)">5</button>	
+	<button type="button" class="buttons" onclick="typeChar(6)">6</button>	
+	<button type="button" class="buttons" onclick="oP('-')">-</button>	
+	<button type="button" class="buttons" onclick="typeChar(1)">1</button>	
+	<button type="button" class="buttons" onclick="typeChar(2)">2</button>
+	<button type="button" class="buttons" onclick="typeChar(3)">3</button>
+	<button type="button" class="buttons" onclick="oP('+')">+</button>	
+	<button type="button" class="buttons" onclick="typeChar('±')">±</button>	
+	<button type="button" class="buttons" onclick="typeChar(0)">0</button>	
+	<button type="button" class="buttons" onclick="typeChar('.')" disabled>.</button>	
+	<button type="button" class="buttons" onclick="sum()">=</button>
+</div>
+
+
+	<script>
+
+		var z = 1;
+		function typeChar(text){
+			var i = 0;
+			var x = document.getElementById("monitor").value;
+			var y = x.split("\n");
+			var z = x + text;
+
+			for(i;i<y.length;i++){
+				if(y[i] != ''){
+					//alert(y[i]);
+					var yy = y[i].split(/[\s, ]+/);
+					for(zz=0;zz<yy.length;zz++){
+						if(yy[zz] == '='){
+							alert(yy[zz]);
+							document.getElementById("monitor").value = '';
+							break;
+						}
+						document.getElementById("monitor").value = z;
+					}
+				}else{
+					document.getElementById("monitor").value = z;
+				}
+			}
+			
+			//document.getElementById("monitor").value = z;
+		}
+
+		function delChar(){
+			var x = document.getElementById("monitor").value;
+			var y = x.slice(0,x.length -1);
+			document.getElementById("monitor").value = y;
+		}
+
+		function oP(text){
+			var x = document.getElementById("monitor").value;
+			var sValues = x.split("\n");
+
+			if(sValues[0] == ''){
+				var y = x += "0\n" + text + "\n";				
+			}else{
+				var y = x += "\n" + text + "\n";
+			}
+
+			document.getElementById("monitor").value = y;
+		}
+
+		function clearContents(element){
+			document.getElementById("monitor").value = '';
+		}
+
+		function clearCont(element){
+			var x = document.getElementById("monitor").value;
+			var y = x.slice(0,x.length -1);
+			document.getElementById("monitor").value = y;
+		}
+
+		function sum(){
+			var val = String(document.getElementById("monitor").value);
+
+			var lines = val.split("\n");
+
+			var result;
+			//alert(lines[0]);
+
+			// if(lines[1] == '-'){
+			// 	result = lines[0] - lines[2];
+			// 	document.getElementById("monitor").value += "\n=" + result;
+			// }
+
+			//alert(lines.length);
+			var i = 0;
+			for(i; i<lines.length; i++){
+				var a = parseInt(lines[i-1], 10);
+				var b = parseInt(lines[i+1], 10);
+				if(lines[i] == '+'){
+					//alert(lines[i-1] + lines[i] + lines[i+1]);
+					result = a + b;
+					z = 0;
+				}else if(lines[i] == '-'){
+					result = a - b;
+					z = 0;
+				}else if(lines[i] == '÷'){
+					result = a / b;
+					z = 0;
+				}else if(lines[i] == '*'){
+					result = a * b;
+					z = 0;
+				}
+			}
+			document.getElementById("monitor").value += "\n= " + result;
+
+			//alert(z);
+		}
+
+
+	</script>
+
+</body>
+</html>
